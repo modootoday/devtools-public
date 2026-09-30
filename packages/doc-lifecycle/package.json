@@ -1,0 +1,70 @@
+{
+  "name": "@modootoday/devtools-doc-lifecycle",
+  "version": "0.5.0",
+  "description": "Design-document conformance and migration: scan a document set, check schema, naming, placement and the page-to-code link, draw the reference graph, and carry a pile onto a convention through discover, cluster, derive and apply.",
+  "keywords": [
+    "documentation",
+    "conformance",
+    "frontmatter",
+    "devtools",
+    "build-tooling"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE",
+    ".agent/skills"
+  ],
+  "bin": {
+    "devtools-doc-check": "./dist/cli/check.js",
+    "devtools-doc-graph": "./dist/cli/graph.js",
+    "devtools-doc-discover": "./dist/cli/discover.js",
+    "devtools-doc-cluster": "./dist/cli/cluster.js",
+    "devtools-doc-derive": "./dist/cli/derive.js",
+    "devtools-doc-apply": "./dist/cli/apply.js",
+    "devtools-doc-next-adr": "./dist/cli/next-adr.js",
+    "devtools-doc-visibility": "./dist/cli/visibility.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit --incremental --tsBuildInfoFile ./dist/.tsbuildinfo",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modootoday/devtools-public.git",
+    "directory": "packages/doc-lifecycle"
+  },
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "homepage": "https://github.com/modootoday/devtools-public/tree/main/packages/doc-lifecycle#readme",
+  "bugs": {
+    "url": "https://github.com/modootoday/devtools-public/issues"
+  }
+}
