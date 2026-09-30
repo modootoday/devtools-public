@@ -1,4 +1,4 @@
-export { CONFIG_FILE, DEFAULTS, loadConfig, specDir, workDir } from "./config.js";
+export { CONFIG_FILE, DEFAULTS, configForRoot, loadConfig, specDir, workDir } from "./config.js";
 
 export { findSpecRoots, idOf, kindOf, parseFrontmatter, proseOnly, scan } from "./scan.js";
 
@@ -61,6 +61,7 @@ export type {
   KindSpec,
   PathCandidate,
   RejectedDecision,
+  RootOverride,
   ScanResult,
   SpecConfig,
   SpecRoot,

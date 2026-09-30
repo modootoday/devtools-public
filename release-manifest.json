@@ -7,7 +7,7 @@
   "access": "public",
   "packages": ["@modootoday/devtools-doc-lifecycle"],
   "versions": {
-    "@modootoday/devtools-doc-lifecycle": "0.5.0"
+    "@modootoday/devtools-doc-lifecycle": "0.5.1"
   },
   "sourceAuthority": "modootoday/devtools-public"
 }

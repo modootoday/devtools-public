@@ -142,6 +142,18 @@ export function loadConfig(root: string, override?: string | null): SpecConfig {
   };
 }
 
+// The settings one spec root is checked under. Overrides merge over the
+// repository kinds, so a root states only what differs.
+export function configForRoot(config: SpecConfig, rootRel: string): SpecConfig {
+  const override = config.rootOverrides?.[rootRel];
+  if (!override) return config;
+  const kinds: Record<string, KindSpec> = { ...config.kinds };
+  for (const [name, extra] of Object.entries(override.kinds ?? {})) {
+    kinds[name] = { ...(kinds[name] ?? (extra as KindSpec)), ...extra };
+  }
+  return { ...config, kinds, ignore: [...config.ignore, ...(override.ignore ?? [])] };
+}
+
 // Where a migration puts what it produces. A repository whose documents are
 // still a top-level pile is scanned at ".", and its destination is a spec root
 // that does not exist yet; anywhere else the configured root is the destination.

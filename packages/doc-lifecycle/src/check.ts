@@ -2,8 +2,9 @@
 // returns them; whether a finding blocks is the caller's to declare.
 
 import { existsSync } from "node:fs";
-import { isAbsolute, join } from "node:path";
+import { isAbsolute, join, relative } from "node:path";
 
+import { configForRoot } from "./config.js";
 import { exposureFindings } from "./exposure.js";
 import { scan } from "./scan.js";
 import type { CheckCode, CheckResult, Document, Finding, SpecConfig } from "./types.js";
@@ -58,7 +59,7 @@ export function checkDocuments(
     // The scan only produces documents under a kind the configuration declares,
     // so this cannot miss; skipping rather than asserting keeps a hand-built
     // document list from crashing the checker.
-    const spec = config.kinds[doc.declaredKind];
+    const spec = configForRoot(config, relative(repoRoot, doc.specRoot)).kinds[doc.declaredKind];
     if (!spec) continue;
 
     if (!doc.detectedKind) {

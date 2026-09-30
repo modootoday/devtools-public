@@ -47,8 +47,20 @@ export type SpecConfig = {
    * them into the body as prose keeps the words and loses the field.
    */
   preservedFields: readonly string[];
+  /**
+   * Kind and ignore settings for one spec root, keyed by its path from the
+   * repository root. A root that arrived with its own naming keeps it instead of
+   * renaming every document and link it has.
+   */
+  rootOverrides?: Record<string, RootOverride>;
   cluster: ClusterPolicy;
   source: string;
+};
+
+export type RootOverride = {
+  kinds?: Record<string, Partial<KindSpec>>;
+  /** Added to the repository ignore list inside this root only. */
+  ignore?: readonly string[];
 };
 
 export type VisibilityManifest = {

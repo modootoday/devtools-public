@@ -121,3 +121,51 @@ describe("where a migration puts what it produces", () => {
     expect(workDir({ ...DEFAULTS, source: "t", root: "." })).toBe(join(".spec", "_work"));
   });
 });
+
+describe("a spec root that keeps its own naming", () => {
+  let repo: string;
+
+  const write = (rel: string, body: string): void => {
+    mkdirSync(join(repo, rel.split("/").slice(0, -1).join("/")), { recursive: true });
+    writeFileSync(join(repo, rel), body);
+  };
+
+  beforeAll(() => {
+    repo = mkdtempSync(join(tmpdir(), "doc-lifecycle-root-override-"));
+    writeFileSync(
+      join(repo, "spec-conformance.json"),
+      JSON.stringify({
+        rootOverrides: {
+          "brand/.spec": {
+            kinds: {
+              sot: { file: "^(\\d{2,3})-([a-z0-9]+(?:-[a-z0-9]+)*)\\.md$", domain: false, required: ["status"] },
+              decision: { dir: "sots/adr", file: "^(ADR-\\d{3})-(.+)\\.md$" },
+            },
+            ignore: ["adr"],
+          },
+        },
+      }),
+    );
+    write("brand/.spec/sots/14-design-system.md", "---\nstatus: canonical\n---\n# 14\n");
+    write("brand/.spec/sots/adr/ADR-005-Approval-Token,-Not-File.md", "---\nstatus: accepted\n---\n# ADR-005\n");
+    write("other/.spec/sots/14-design-system.md", "---\nstatus: canonical\n---\n# 14\n");
+  });
+
+  afterAll(() => rmSync(repo, { recursive: true, force: true }));
+
+  it("checks the overridden root by its own patterns and leaves other roots on the defaults", () => {
+    const { documents, findings } = checkDocuments(repo, loadConfig(repo));
+    const kinds = documents.map((d) => `${d.declaredKind} ${d.rel}`).sort();
+    expect(kinds).toEqual([
+      "decision brand/.spec/sots/adr/ADR-005-Approval-Token,-Not-File.md",
+      "sot brand/.spec/sots/14-design-system.md",
+      "sot other/.spec/sots/14-design-system.md",
+    ]);
+    const shapes = findings.filter((f) => f.code === "FILENAME_SHAPE").map((f) => f.path);
+    expect(shapes).toEqual(["other/.spec/sots/14-design-system.md"]);
+    expect(findings.filter((f) => f.path.startsWith("brand/")).map((f) => f.code)).toEqual([
+      "NEVER_REVIEWED",
+      "NEVER_REVIEWED",
+    ]);
+  });
+});

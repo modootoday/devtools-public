@@ -4,6 +4,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { basename, dirname, join, relative, sep } from "node:path";
 
+import { configForRoot } from "./config.js";
 import type { Document, Frontmatter, ScanResult, SpecConfig, SpecRoot } from "./types.js";
 
 const unquote = (value: string): string => value.replace(/^["'](.*)["']$/, "$1").trim();
@@ -134,13 +135,14 @@ export function proseOnly(text: string): string {
 export const idOf = (filename: string): string =>
   filename.replace(/\.(sot|page)\.md$/, "").replace(/\.md$/, "");
 
-export function scan(repoRoot: string, config: SpecConfig): ScanResult {
-  const ignore = new Set(config.ignore);
-  const reserved = new Set(config.reserved);
+export function scan(repoRoot: string, repoConfig: SpecConfig): ScanResult {
+  const reserved = new Set(repoConfig.reserved);
   const documents: Document[] = [];
-  const roots = findSpecRoots(repoRoot, config);
+  const roots = findSpecRoots(repoRoot, repoConfig);
 
   for (const root of roots) {
+    const config = configForRoot(repoConfig, relative(repoRoot, root.path));
+    const ignore = new Set(config.ignore);
     for (const [kind, spec] of Object.entries(config.kinds)) {
       for (const dirName of [spec.dir, ...(spec.sourceDirs ?? [])]) {
         const kindRoot = join(root.path, dirName);

@@ -4,7 +4,7 @@ Design-document conformance and migration: scan a document set, check schema, na
 
 ## Public surfaces
 
-- `loadConfig`, `DEFAULTS`, `specDir`, `workDir` — the schema a repository declares in `spec-conformance.json`, and where a migration puts what it produces.
+- `loadConfig`, `configForRoot`, `DEFAULTS`, `specDir`, `workDir` — the schema a repository declares in `spec-conformance.json`, and where a migration puts what it produces.
 - `scan`, `findSpecRoots`, `parseFrontmatter`, `proseOnly`, `kindOf`, `idOf` — reading the document set. Parsing only; no judgement.
 - `checkDocuments` — schema, naming, placement, the page-to-code link and the review cadence, as `CHECK_CODES` findings.
 - `exposureFindings`, `shipsInTarball`, `parseGitmodules` — whether any discovered spec root would be published: under `docs/`, a publish signal, a configured `publicPaths` prefix, a public submodule named in the committed `visibilityManifest`, or an npm package whose `files` does not leave it out.
@@ -52,6 +52,8 @@ Reporting is the default. `devtools-doc-check` exits 0 with findings unless `--f
 `pathRoots` is empty by default and belongs to the consumer. The graph joins documents to history through the paths they name in backticks, and which top-level directories exist is the one thing about a repository this package cannot know. An empty list means no allowlist — an unmatched path costs only precision, because the edge comes from history either way. Measured on the reference repository: 89,104 commit edges with its eleven roots declared, 93,261 with none, and identical findings and document edges in both runs.
 
 Everything else a repository decides arrives in `spec-conformance.json`: which kinds exist, what a filename of each kind looks like, which status words each accepts, which fields are required, whether a kind takes a domain level and from which closed list, how often each kind is reviewed, what the reference field is called and which aliases to read as well.
+
+`rootOverrides` gives one spec root its own kind settings, keyed by that root's path from the repository root: `{ "rootOverrides": { "apps/brand/.spec": { "kinds": { "sot": { "file": "^(\\d{2,3})-(.+)\\.md$", "domain": false } }, "ignore": ["adr"] } } }`. Only the fields that differ are stated, because they merge over the repository kinds, and `ignore` adds to the repository list inside that root only. It exists for a root that arrived with its own naming, where renaming every document would break every link that names one. `scan` and `checkDocuments` honour it, and `configForRoot` returns the settings for any root. The migration stages (`derive`, `apply`) and `nextDecisionIds` still read the repository kinds.
 
 ## Mock and dry-run
 
