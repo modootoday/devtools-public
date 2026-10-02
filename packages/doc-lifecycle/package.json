@@ -39,7 +39,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit --incremental --tsBuildInfoFile ./dist/.tsbuildinfo",
+    "typecheck": "tsgo --noEmit --incremental --tsBuildInfoFile ./dist/.tsbuildinfo --singleThreaded",
     "test": "vitest run --passWithNoTests",
     "clean": "rimraf dist"
   },
