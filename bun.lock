@@ -10,7 +10,7 @@
     },
     "packages/doc-lifecycle": {
       "name": "@modootoday/devtools-doc-lifecycle",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "bin": {
         "devtools-doc-check": "./dist/cli/check.js",
         "devtools-doc-graph": "./dist/cli/graph.js",

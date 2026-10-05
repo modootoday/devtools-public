@@ -1,6 +1,6 @@
 {
   "name": "@modootoday/devtools-doc-lifecycle",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Design-document conformance and migration: scan a document set, check schema, naming, placement and the page-to-code link, draw the reference graph, and carry a pile onto a convention through discover, cluster, derive and apply.",
   "keywords": [
     "documentation",
@@ -24,7 +24,7 @@
     "!dist/**/*.map",
     "README.md",
     "LICENSE",
-    ".agent/skills"
+    ".agents/skills"
   ],
   "bin": {
     "devtools-doc-check": "./dist/cli/check.js",

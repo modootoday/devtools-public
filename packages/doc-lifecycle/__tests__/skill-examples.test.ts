@@ -1,4 +1,4 @@
-// Every example in .agent/skills/document-conformance/SKILL.md, run against the
+// Every example in .agents/skills/document-conformance/SKILL.md, run against the
 // real package. A worked example that does not run is not an example.
 //
 // Nothing here spawns git. `buildGraph` is called without history on purpose --
