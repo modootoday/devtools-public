@@ -7,7 +7,7 @@ import type { Document, SpecConfig } from "./types.js";
 export type NextId = { prefix: string; last: string | null; next: string };
 
 // The decision pattern's first capture group is the numbered part of the name:
-// "0042" for MADR, "ADR-TOOL-059" for area-prefixed records. Its trailing digits
+// "0042" for MADR, "ADR-W-009" for area-prefixed records. Its trailing digits
 // are the counter and everything before them is the series.
 export function nextDecisionIds(documents: readonly Document[], config: SpecConfig): NextId[] {
   const spec = config.kinds["decision"];

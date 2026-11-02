@@ -148,12 +148,12 @@ describe("the next decision number", () => {
 
   it("continues each area series and keeps its width", () => {
     const series = ids(
-      ["ADR-TOOL-058-a.md", "ADR-TOOL-059-b.md", "ADR-PKG-071-c.md"],
+      ["ADR-W-008-a.md", "ADR-W-009-b.md", "ADR-A-021-c.md"],
       "^(ADR-[A-Z][A-Z0-9]*-\\d{3})-([a-z][a-z0-9]*(?:-[a-z0-9]+)*)\\.md$",
     );
     expect(series).toEqual([
-      { prefix: "ADR-PKG-", last: "ADR-PKG-071", next: "ADR-PKG-072" },
-      { prefix: "ADR-TOOL-", last: "ADR-TOOL-059", next: "ADR-TOOL-060" },
+      { prefix: "ADR-A-", last: "ADR-A-021", next: "ADR-A-022" },
+      { prefix: "ADR-W-", last: "ADR-W-009", next: "ADR-W-010" },
     ]);
   });
 
